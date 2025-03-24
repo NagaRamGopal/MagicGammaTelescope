@@ -34,8 +34,6 @@ for label in cols[:-1]:
 
 train,valid,test=np.split(df.sample(frac=1), [int(0.6*len(df)), int(0.8*len(df))])
 
-x=df[cols[:-1]].values
-y=df[cols[-1]].values
 scaler=StandardScaler()
-X=scaler.fit_transform(x)
-print(X)
+df[cols[:-1]]=scaler.fit_transform(df[cols[:-1]])
+print(df.head())

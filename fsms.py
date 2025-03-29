@@ -41,8 +41,22 @@ class Fsms:
         Scalar=StandardScaler()
         self.x=Scalar.fit_transform(self.x)
         self.df[Fsms.cols[:-1]] = self.x  #assigning scaled data to dataframe
-        print(self.df.head())
+    
+    def train_test_valid(self):
+        self.train,self.valid,self.test=np.split(self.df.sample(frac=1), [int(0.6*len(self.df)), int(0.8*len(self.df))])
+        '''cross checking percentages'''
+        #print(len(train)/len(self.df)*100)
+        #print(len(valid)/len(self.df)*100)
+        #print(len(test)/len(self.df)*100)
         
+    def focus_train(self):
+        print(self.train["class"].value_counts())
+        print(self.train["class"].value_counts()[0]) 
+        print(self.train["class"].value_counts()[1]) #we have more 0's i.e., gamma values in training set which might imbalance and model may biased towards gamma
+
+    def OverSampling(self):
+        pass    
+    
 
 
 
@@ -54,6 +68,11 @@ class Fsms:
         self.binary_enocoding()
         #self.visualizations()
         self.standard_scalar()
+        self.train_test_valid()
+        self.focus_train()
+        self.OverSampling()
+        
+
 
 obj=Fsms()
 obj.Execution_Order()

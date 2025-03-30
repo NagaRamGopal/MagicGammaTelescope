@@ -57,7 +57,7 @@ class Fsms:
         print(self.train["class"].value_counts()[1]) #we have more 0's i.e., gamma values in training set which might imbalance and model may biased towards gamma
 
     def OverSampling(self):
-        adasyn=ADASYN(sampling_strategy='auto', random_state=42) #random state=42 put the data same doesn't matter how many time you run/execute
+        adasyn=ADASYN(sampling_strategy=1.0, random_state=42) #random state=42 put the data same doesn't matter how many time you run/execute
         x_train, y_train=self.train[Fsms.cols[:-1]], self.train["class"]
         x_train,y_train=adasyn.fit_resample(x_train,y_train)
         print(y_train.value_counts())

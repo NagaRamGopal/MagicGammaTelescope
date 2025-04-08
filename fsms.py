@@ -17,6 +17,7 @@ class Fsms:
     def get_data(self):
         self.df=pd.read_csv(r'C:\Users\ramgo\OneDrive\Desktop\Learn\MagicGammaTelescope\magic04.data', names=Fsms.cols)
         print(self.df.head())
+        print(len(self.df))
     
     def generate_report(self):
         rpt=ProfileReport(self.df)
@@ -46,6 +47,8 @@ class Fsms:
     
     def train_test_valid(self):
         self.train,self.valid,self.test=np.split(self.df.sample(frac=1), [int(0.6*len(self.df)), int(0.8*len(self.df))])
+        print("Before oversampling", len(self.train))
+
         '''cross checking percentages'''
         #print(len(train)/len(self.df)*100)
         #print(len(valid)/len(self.df)*100)
@@ -55,13 +58,17 @@ class Fsms:
         print(self.train["class"].value_counts())
         print(self.train["class"].value_counts()[0]) 
         print(self.train["class"].value_counts()[1]) #we have more 0's i.e., gamma values in training set which might imbalance and model may biased towards gamma
-
+        
     def OverSampling(self):
         adasyn=ADASYN(sampling_strategy=1.0, random_state=42) #random state=42 put the data same doesn't matter how many time you run/execute
         x_train, y_train=self.train[Fsms.cols[:-1]], self.train["class"]
         x_train,y_train=adasyn.fit_resample(x_train,y_train)
-        print(y_train.value_counts())
+        self.train=pd.DataFrame(x_train, columns=Fsms.cols[:-1])
+        self.train["class"]=y_train
+        print("After oversampling", len(self.train))
             
+    def save_processed_data(self):
+        pass
 
     def Execution_Order(self):
         self.get_data()
@@ -75,5 +82,6 @@ class Fsms:
         
 
 
-obj=Fsms()
-obj.Execution_Order()
+if __name__=="__main__":
+    obj=Fsms()
+    obj.Execution_Order()

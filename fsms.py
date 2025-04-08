@@ -68,7 +68,9 @@ class Fsms:
         print("After oversampling", len(self.train))
             
     def save_processed_data(self):
-        pass
+        self.train.to_csv("Train.csv", index=False)
+        self.valid.to_csv("Validation.csv", index=False)
+        self.test.to_csv("Testing.csv", index=False)
 
     def Execution_Order(self):
         self.get_data()
@@ -79,6 +81,7 @@ class Fsms:
         self.train_test_valid()
         #self.focus_train()
         self.OverSampling()
+        self.save_processed_data()
         
 
 
